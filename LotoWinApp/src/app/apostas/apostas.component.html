@@ -1,0 +1,52 @@
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <input type="text" class="form-control mr-2" placeholder="Filtrar Concurso" [(ngModel)]="filtro">
+  </div>
+</div>
+<table class="table table-striped">
+  <thead class="megasena">
+    <tr>
+      <th>#</th>
+      <th>Concurso</th>
+      <th>Dt. Aposta</th>
+      <th>Dt. Concurso</th>
+      <th>Jogos</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="apostasfiltrada && apostasfiltrada.length">
+    <tr *ngFor="let aposta of apostasfiltrada">
+      <th>{{ aposta.id }}</th>
+      <th>{{ aposta.concurso }}</th>
+      <th>{{ aposta.dataAposta | date:'dd/MM/yy' }}</th>
+      <th>{{ aposta.dataConcurso | date:'dd/MM/yy' }}</th>
+      <th>
+        <table>
+          <tbody>
+            <tr *ngFor="let jogo of aposta.jogos">
+              <th *ngFor="let numero of jogo.numeros">
+                {{ numero.valor }}
+              </th>
+              <th>
+                <i class="fas fa-trophy" *ngIf="jogo.premiado" tooltip="Premiado"></i>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </th>
+      <th>
+        <button class="btn btn-sm" tooltip="Editar" routerLink="../Cadastro/{{ aposta.id }}"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-sm" tooltip="Excluir" (click)="DeleteAposta(aposta.id)"><i class="fas fa-trash-alt"></i></button>
+      </th>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!apostasfiltrada || !apostasfiltrada.length">
+    <tr>
+      <td colspan="6" class="text-center">
+        <h4>
+          Nenhuma aposta encontrada!
+        </h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
